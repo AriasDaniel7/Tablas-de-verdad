@@ -9,6 +9,6 @@
 - Creado en NetBeans IDE 8.2
 
 ## **Interfaz:**
-<p style="margin: 0;">Venta Principal:</p> <p align="center" style="margin: 0;"><img width="100%" height="100%" src="https://github.com/AriasDaniel7/Tablas-de-verdad/blob/master/img/Captura%20de%20pantalla%202023-03-21%20215112.png?raw=true"></p>
+<p style="margin: 0;">Ventana Principal:</p> <p align="center" style="margin: 0;"><img width="100%" height="100%" src="https://github.com/AriasDaniel7/Tablas-de-verdad/blob/master/img/Captura%20de%20pantalla%202023-03-21%20215112.png?raw=true"></p>
 
-<p style="margin: 0;">Venta Tablas:</p> <p align="center" style="margin: 0;"><img width="100%" height="100%" src="https://github.com/AriasDaniel7/Tablas-de-verdad/blob/master/img/Captura%20de%20pantalla%202023-03-21%20215255.png?raw=true"></p>
+<p style="margin: 0;">Ventana Tablas:</p> <p align="center" style="margin: 0;"><img width="100%" height="100%" src="https://github.com/AriasDaniel7/Tablas-de-verdad/blob/master/img/Captura%20de%20pantalla%202023-03-21%20215255.png?raw=true"></p>
