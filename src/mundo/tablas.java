@@ -11,7 +11,7 @@ public class tablas {
     private boolean[][] matrizBase;
     private ShuntingYard sy;
     private String cadena;
-    private ArrayList<Character> pila;
+    private ArrayList<Integer> pilaIndex;
     private boolean[][] table;
 
     public tablas(String infija) {
@@ -19,7 +19,7 @@ public class tablas {
         iniciarMatrizBase();
         iniciarTabla();
         sy = new ShuntingYard();
-        pila = new ArrayList<>();
+        pilaIndex = new ArrayList<>();
     }
 
     public void imprimirMatrizBase() {
@@ -131,30 +131,29 @@ public class tablas {
         for (int i = 0; i < cadena.length(); i++) {
             switch (cadena.charAt(i)) {
                 case '∨':
-                    pila.add(cadena.charAt(i));
+                    pilaIndex.add(i);
                     disyuncion(i, cadena.charAt(i));
                     break;
                 case '→':
-                    pila.add(cadena.charAt(i));
+                    pilaIndex.add(i);
                     condicional(i, cadena.charAt(i));
                     break;
                 case '∧':
-                    pila.add(cadena.charAt(i));
+                    pilaIndex.add(i);
                     conjuncion(i, cadena.charAt(i));
                     break;
                 case '¬':
-                    pila.add(cadena.charAt(i));
+                    pilaIndex.add(i);
                     negacion(i, cadena.charAt(i));
                     break;
                 case '↔':
-                    pila.add(cadena.charAt(i));
+                    pilaIndex.add(i);
                     bicondicional(i, cadena.charAt(i));
                     break;
                 default:
-                    pila.add(cadena.charAt(i));
+                    pilaIndex.add(i);
             }
         }
-        pila.clear();
     }
 
     public void iniciarTabla() {
@@ -179,40 +178,19 @@ public class tablas {
         return -1;
     }
 
-    public int buscarSimbolo(char letra) {
-        for (int i = 0; i < cadena.length(); i++) {
-            if (letra == cadena.charAt(i)) {
+    public int buscarUbicacionPilaIndex(int dato) {
+        for (int i = 0; i < pilaIndex.size(); i++) {
+            if (pilaIndex.get(i) == dato) {
                 return i;
             }
         }
         return -1;
     }
 
-    public char[] buscarDosAnteriores(char letra) {
-        char x[] = new char[2];
-        for (int i = 0; i < pila.size(); i++) {
-            if (letra == pila.get(i) && !((i - 2) < 0)) {
-                x[0] = pila.get(i - 2);
-                x[1] = pila.get(i - 1);
-                return x;
-            }
-        }
-        return null;
-    }
-
-    public int buscarIndexPila(char letra) {
-        for (int i = 0; i < pila.size(); i++) {
-            if (pila.get(i) == letra) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    public int buscarIndexPilaNegacion(char letra) {
-        for (int i = pila.size() - 1; i >= 0; i--) {
-            if (pila.get(i) == letra) {
-                return i;
+    public int buscarDatoPila(int dato) {
+        for (int i = 0; i < pilaIndex.size(); i++) {
+            if (i == dato) {
+                return pilaIndex.get(i);
             }
         }
         return -1;
@@ -234,46 +212,38 @@ public class tablas {
     }
 
     public void negacion(int posicion, char letra) {
+        int index = buscarUbicacionPilaIndex(posicion);
+        int desp = buscarDatoPila(index - 1);
         for (int j = 0; j < table[0].length; j++) {
             for (int i = 0; i < table.length; i++) {
                 if (j == posicion) {
-                    boolean p = table[i][j - 1];
+                    boolean p = table[i][desp];
                     if (!p) {
                         table[i][j] = true;
                     }
                 }
             }
         }
-        pila.remove(buscarIndexPilaNegacion(letra) - 1);
+        pilaIndex.remove(buscarUbicacionPilaIndex(desp));
     }
 
     public void disyuncion(int posicion, char letra) {
-        char temp[] = buscarDosAnteriores(letra);
-        ArrayList<Integer> iguales = null;
-        if (temp[0] == temp[1]) {
-            iguales = buscarIndexDosIguales(temp[0]);
-        }
+        int index = buscarUbicacionPilaIndex(posicion);
+        int ant = buscarDatoPila(index - 2);
+        int desp = buscarDatoPila(index - 1);
         for (int j = 0; j < table[0].length; j++) {
             for (int i = 0; i < table.length; i++) {
-                if (j == posicion && iguales == null) {
-                    boolean p = table[i][buscarSimbolo(temp[0])];
-                    boolean q = table[i][buscarSimbolo(temp[1])];
+                if (j == posicion) {
+                    boolean p = table[i][ant];
+                    boolean q = table[i][desp];
                     if (p || q) {
                         table[i][j] = true;
-                    }
-                } else {
-                    if ((j == posicion && iguales != null)) {
-                        boolean p = table[i][iguales.get(0)];
-                        boolean q = table[i][iguales.get(1)];
-                        if (p || q) {
-                            table[i][j] = true;
-                        }
                     }
                 }
             }
         }
-        pila.remove(buscarIndexPila(temp[0]));
-        pila.remove(buscarIndexPila(temp[1]));
+        pilaIndex.remove(buscarUbicacionPilaIndex(ant));
+        pilaIndex.remove(buscarUbicacionPilaIndex(desp));
     }
 
     public ArrayList<Integer> buscarIndexDosIguales(char letra) {
@@ -290,90 +260,61 @@ public class tablas {
     }
 
     public void conjuncion(int posicion, char letra) {
-        char temp[] = buscarDosAnteriores(letra);
-        ArrayList<Integer> iguales = null;
-        if (temp[0] == temp[1]) {
-            iguales = buscarIndexDosIguales(temp[0]);
-        }
+        int index = buscarUbicacionPilaIndex(posicion);
+        int ant = buscarDatoPila(index - 2);
+        int desp = buscarDatoPila(index - 1);
         for (int j = 0; j < table[0].length; j++) {
             for (int i = 0; i < table.length; i++) {
-                if (j == posicion && iguales == null) {
-                    boolean p = table[i][buscarSimbolo(temp[0])];
-                    boolean q = table[i][buscarSimbolo(temp[1])];
+                if (j == posicion) {
+                    boolean p = table[i][ant];
+                    boolean q = table[i][desp];
                     if (p && q) {
                         table[i][j] = true;
                     }
-                } else {
-                    if ((j == posicion && iguales != null)) {
-                        boolean p = table[i][iguales.get(0)];
-                        boolean q = table[i][iguales.get(1)];
-                        if (p && q) {
-                            table[i][j] = true;
-                        }
-                    }
                 }
             }
         }
-        pila.remove(buscarIndexPila(temp[0]));
-        pila.remove(buscarIndexPila(temp[1]));
+
+        pilaIndex.remove(buscarUbicacionPilaIndex(ant));
+        pilaIndex.remove(buscarUbicacionPilaIndex(desp));
     }
 
     public void condicional(int posicion, char letra) {
-        char temp[] = buscarDosAnteriores(letra);
-        ArrayList<Integer> iguales = null;
-        if (temp[0] == temp[1]) {
-            iguales = buscarIndexDosIguales(temp[0]);
-        }
+        int index = buscarUbicacionPilaIndex(posicion);
+        int ant = buscarDatoPila(index - 2);
+        int desp = buscarDatoPila(index - 1);
         for (int j = 0; j < table[0].length; j++) {
             for (int i = 0; i < table.length; i++) {
-                if (j == posicion && iguales == null) {
-                    boolean p = table[i][buscarSimbolo(temp[0])];
-                    boolean q = table[i][buscarSimbolo(temp[1])];
+                if (j == posicion) {
+                    boolean p = table[i][ant];
+                    boolean q = table[i][desp];
                     if ((p && q) || (!p && (!q || q))) {
                         table[i][j] = true;
                     }
-                } else {
-                    if ((j == posicion && iguales != null)) {
-                        boolean p = table[i][iguales.get(0)];
-                        boolean q = table[i][iguales.get(1)];
-                        if ((p && q) || (!p && (!q || q))) {
-                            table[i][j] = true;
-                        }
-                    }
                 }
             }
         }
-        pila.remove(buscarIndexPila(temp[0]));
-        pila.remove(buscarIndexPila(temp[1]));
+        pilaIndex.remove(buscarUbicacionPilaIndex(ant));
+        pilaIndex.remove(buscarUbicacionPilaIndex(desp));
     }
 
     public void bicondicional(int posicion, char letra) {
-        char temp[] = buscarDosAnteriores(letra);
-        ArrayList<Integer> iguales = null;
-        if (temp[0] == temp[1]) {
-            iguales = buscarIndexDosIguales(temp[0]);
-        }
+        int index = buscarUbicacionPilaIndex(posicion);
+        int ant = buscarDatoPila(index - 2);
+        int desp = buscarDatoPila(index - 1);
         for (int j = 0; j < table[0].length; j++) {
             for (int i = 0; i < table.length; i++) {
-                if (j == posicion && iguales == null) {
-                    boolean p = table[i][buscarSimbolo(temp[0])];
-                    boolean q = table[i][buscarSimbolo(temp[1])];
+                if (j == posicion) {
+                    boolean p = table[i][ant];
+                    boolean q = table[i][desp];
                     if ((p && q) || (!p && !q)) {
                         table[i][j] = true;
-                    }
-                } else {
-                    if ((j == posicion && iguales != null)) {
-                        boolean p = table[i][iguales.get(0)];
-                        boolean q = table[i][iguales.get(1)];
-                        if ((p && q) || (!p && !q)) {
-                            table[i][j] = true;
-                        }
                     }
                 }
             }
         }
-        pila.remove(buscarIndexPila(temp[0]));
-        pila.remove(buscarIndexPila(temp[1]));
+        pilaIndex.remove(buscarUbicacionPilaIndex(ant));
+        pilaIndex.remove(buscarUbicacionPilaIndex(desp));
     }
 
     public boolean[][] getTable() {

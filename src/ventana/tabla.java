@@ -189,7 +189,7 @@ public class tabla extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new tabla("p∧q").setVisible(true);
+                new tabla("((p∨q)∧r)").setVisible(true);
             }
         });
     }

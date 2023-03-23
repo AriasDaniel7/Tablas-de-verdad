@@ -176,33 +176,32 @@ public class ventana_principal extends javax.swing.JFrame {
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 682, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(247, 247, 247)
+                .addComponent(btnConvertir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnTablas, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(270, 270, 270)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(270, 270, 270)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(simbolo4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(simbolo5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(simbolo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(simbolo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(simbolo4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(simbolo3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(simbolo6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(simbolo5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(simbolo7)
+                                .addComponent(simbolo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(247, 247, 247)
-                        .addComponent(btnConvertir)
+                                .addComponent(simbolo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnTablas, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(simbolo3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(simbolo6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(simbolo7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -320,6 +319,7 @@ public class ventana_principal extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         txtEntrada_infija.setText("");
+        txtEntrada_infija.requestFocus();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void txtEntrada_infijaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEntrada_infijaKeyTyped
@@ -346,38 +346,60 @@ public class ventana_principal extends javax.swing.JFrame {
     }
 
     public boolean validarCadena(String cadena) {
+        int izq = 0;
+        int der = 0;
         char u = cadena.charAt(cadena.length() - 1);
         char p = cadena.charAt(0);
-        String patron1 = "[∧ ¬ → ↔ ∨]";
-        String patron2 = "[)]";
-        String patron3 = "[∧ → ↔ ∨]";
-        if (Pattern.matches(patron3, Character.toString(p))
-                || Pattern.matches(patron1, Character.toString(u))) {
+        boolean a = Pattern.matches("[∨ → ∧ ¬ ↔]", Character.toString(u));
+        boolean b = Pattern.matches("[∨ → ∧ ↔]", Character.toString(p));
+
+        //Validar primero y ultimo
+        if (a || b) {
             return false;
         }
-        int conIzq = 0;
-        int conDer = 0;
-        for (int i = 0; i < cadena.length() - 1; i++) {
-            char a = cadena.charAt(i);
-            char d = cadena.charAt(i + 1);
-            if (a == d || Character.isLetter(a) && Character.isLetter(d)
-                    || (Character.isLetter(a) && d == '¬')
-                    || (Pattern.matches(patron2, Character.toString(a)) && Character.isLetter(d))) {
-                return false;
+
+        //Validar Parentesis
+        for (int i = 0; i < cadena.length(); i++) {
+            if (cadena.charAt(i) == '(') {
+                izq++;
             }
-            if (a == '(') {
-                conIzq++;
-            } else if (a == ')') {
-                conDer++;
+            if (cadena.charAt(i) == ')') {
+                der++;
             }
-        }
-        if (u == '(') {
-            conIzq++;
-        } else if (u == ')') {
-            conDer++;
         }
 
-        return conIzq == conDer;
+        if (izq != der) {
+            return false;
+        }
+
+        /**
+         * Validar cuando este entre parentesis
+         */
+        for (int i = 0; i < cadena.length() - 2; i++) {
+            char char1 = cadena.charAt(i);
+            char char2 = cadena.charAt(i + 1);
+            char char3 = cadena.charAt(i + 2);
+            boolean entre1 = char3 == ')' && Pattern.matches("[∨ → ¬ ∧ ↔]", Character.toString(char2));
+            boolean entre2 = (char1 == '(' && Pattern.matches("[∨ → ¬ ∧ ↔]", Character.toString(char2)) && char3 == ')');
+            boolean entre3 = (char1 == '(' && Pattern.matches("[∨ → ∧ ↔]", Character.toString(char2)) && Character.isLetter(char3));
+            if (entre1 || entre2 || entre3) {
+                return false;
+            }
+        }
+
+        for (int i = 0; i < cadena.length() - 1; i++) {
+            char char1 = cadena.charAt(i);
+            char char2 = cadena.charAt(i + 1);
+            boolean entre1 = (char1 == char2) && !(char1 == '(' || char1 == ')') && !(char2 == '(' || char2 == ')');
+            boolean entre2 = Character.isLetter(char1) && Character.isLetter(char2);
+            boolean entre3 = Pattern.matches("[∨ → ∧ ↔]", Character.toString(char1)) && Pattern.matches("[∨ → ∧ ↔]", Character.toString(char2));
+            boolean entre4 = Character.isLetter(char1) && char2 == '¬';
+            if (entre1 || entre2 || entre3 || entre4) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public static void main(String args[]) {
