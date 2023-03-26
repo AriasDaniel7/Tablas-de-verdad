@@ -382,7 +382,9 @@ public class ventana_principal extends javax.swing.JFrame {
             boolean entre1 = char3 == ')' && Pattern.matches("[∨ → ¬ ∧ ↔]", Character.toString(char2));
             boolean entre2 = (char1 == '(' && Pattern.matches("[∨ → ¬ ∧ ↔]", Character.toString(char2)) && char3 == ')');
             boolean entre3 = (char1 == '(' && Pattern.matches("[∨ → ∧ ↔]", Character.toString(char2)) && Character.isLetter(char3));
-            if (entre1 || entre2 || entre3) {
+            boolean entre4 = (Character.isLetter(char1) && Pattern.matches("[( )]", Character.toString(char2)) && Character.isLetter(char3));
+            boolean entre5 = (Character.isLetter(char1) && Pattern.matches("[( )]", Character.toString(char2)) && Pattern.matches("[¬]", Character.toString(char3)));
+            if (entre1 || entre2 || entre3 || entre4 || entre5) {
                 return false;
             }
         }
@@ -394,7 +396,8 @@ public class ventana_principal extends javax.swing.JFrame {
             boolean entre2 = Character.isLetter(char1) && Character.isLetter(char2);
             boolean entre3 = Pattern.matches("[∨ → ∧ ↔]", Character.toString(char1)) && Pattern.matches("[∨ → ∧ ↔]", Character.toString(char2));
             boolean entre4 = Character.isLetter(char1) && char2 == '¬';
-            if (entre1 || entre2 || entre3 || entre4) {
+            boolean entre5 = Pattern.matches("[(]", Character.toString(char1)) && Pattern.matches("[)]", Character.toString(char2));
+            if (entre1 || entre2 || entre3 || entre4 || entre5) {
                 return false;
             }
         }
