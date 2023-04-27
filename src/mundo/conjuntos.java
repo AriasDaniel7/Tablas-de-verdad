@@ -184,7 +184,7 @@ public class conjuntos {
         }
         return "null";
     }
-    
+
     public String ListaConjuntosCalculados() {
         if (listaConjuntosCalculados.size() > 0) {
             String cadena = listaConjuntosCalculados.get(0).toString();
@@ -273,27 +273,28 @@ public class conjuntos {
 
     public void calcularConjuntos(boolean[][] matriz, ArrayList<Character> proposiones) {
         listaConjuntosCalculados = new ArrayList<>();
-
-        for (int k = 0; k < listaUniverso.size(); k++) {
-            boolean p = listaA.contains(listaUniverso.get(k));
-            boolean q = listaB.contains(listaUniverso.get(k));
-            if (matriz[0].length > 1) {
-                for (int i = 0; i < matriz.length; i++) {
-                    for (int j = 0; j < matriz[0].length; j++) {
-                        if (p == matriz[i][j] && q == matriz[i][j + 1]) {
+        if (matriz.length > 0) {
+            for (int k = 0; k < listaUniverso.size(); k++) {
+                boolean p = listaA.contains(listaUniverso.get(k));
+                boolean q = listaB.contains(listaUniverso.get(k));
+                if (matriz[0].length > 1) {
+                    for (int i = 0; i < matriz.length; i++) {
+                        for (int j = 0; j < matriz[0].length; j++) {
+                            if (p == matriz[i][j] && q == matriz[i][j + 1]) {
+                                listaConjuntosCalculados.add(listaUniverso.get(k));
+                            }
+                            j++;
+                        }
+                    }
+                } else {
+                    boolean r = p == matriz[0][0];
+                    if (proposiones.get(0) == 'A' && r) {
+                        listaConjuntosCalculados.add(listaUniverso.get(k));
+                    } else {
+                        r = q == matriz[0][0];
+                        if (proposiones.get(0) == 'B' && r) {
                             listaConjuntosCalculados.add(listaUniverso.get(k));
                         }
-                        j++;
-                    }
-                }
-            } else {
-                boolean r = p == matriz[0][0];
-                if (proposiones.get(0) == 'A' && r) {
-                    listaConjuntosCalculados.add(listaUniverso.get(k));
-                } else {
-                    r = q == matriz[0][0];
-                    if (proposiones.get(0) == 'B' && r) {
-                        listaConjuntosCalculados.add(listaUniverso.get(k));
                     }
                 }
             }

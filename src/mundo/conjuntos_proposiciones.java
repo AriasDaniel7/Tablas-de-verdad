@@ -35,7 +35,7 @@ public class conjuntos_proposiciones {
                 case '∩':
                     pasarInterseccion();
                     break;
-                case 'C':
+                case '⊂':
                     pasarComplemento(i);
                     break;
                 case '/':
@@ -75,7 +75,7 @@ public class conjuntos_proposiciones {
 
     public boolean buscarDiferenciaSimetrica() {
         for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).intern() == "Δ") {
+            if (lista.get(i).intern() == "⊕") {
                 return true;
             }
         }
@@ -84,7 +84,7 @@ public class conjuntos_proposiciones {
 
     public void calcularDiferenciaSimetrica() {
         for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).intern() == "Δ") {
+            if (lista.get(i).intern() == "⊕") {
                 pasarDiferenciaSimetrica(i);
                 i = 0;
             }

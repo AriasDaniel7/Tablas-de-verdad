@@ -551,7 +551,7 @@ public class vtn_conjuntos extends javax.swing.JFrame {
         });
 
         btn_txtComplemento.setFont(new java.awt.Font("Dialog", 1, 13)); // NOI18N
-        btn_txtComplemento.setText("C");
+        btn_txtComplemento.setText("⊂");
         btn_txtComplemento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_txtComplementoActionPerformed(evt);
@@ -567,7 +567,7 @@ public class vtn_conjuntos extends javax.swing.JFrame {
         });
 
         jButton5.setFont(new java.awt.Font("Dialog", 1, 13)); // NOI18N
-        jButton5.setText("Δ");
+        jButton5.setText("⊕");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
@@ -798,7 +798,7 @@ public class vtn_conjuntos extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_txtUnionActionPerformed
 
     private void btn_txtComplementoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_txtComplementoActionPerformed
-        entradaTXT("C");
+        entradaTXT("⊂");
     }//GEN-LAST:event_btn_txtComplementoActionPerformed
 
     private void btn_txtInterseccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_txtInterseccionActionPerformed
@@ -810,7 +810,7 @@ public class vtn_conjuntos extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        entradaTXT("Δ");
+        entradaTXT("⊕");
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void btn_B1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_B1ActionPerformed
@@ -1007,15 +1007,19 @@ public class vtn_conjuntos extends javax.swing.JFrame {
         boolean p = txt_expresionConjuntos.getText().isEmpty();
         datos_resultado.setText("");
         if (!p) {
-            if (datos_A.getText().length() > 0) {
-                conjuntos_proposiciones cp = new conjuntos_proposiciones(txt_expresionConjuntos.getText().intern());
-                tablas t = new tablas(cp.convertir());
-                t.crearTabla();
-                t.unirMatrices();
-                cj.calcularConjuntos(t.matrizParaConjuntos(), t.Preposiciones());
-                datos_resultado.setText(cj.ListaConjuntosCalculados());
+            if (validarCadena(txt_expresionConjuntos.getText().intern())) {
+                if (datos_A.getText().length() > 0) {
+                    conjuntos_proposiciones cp = new conjuntos_proposiciones(txt_expresionConjuntos.getText().intern());
+                    tablas t = new tablas(cp.convertir());
+                    t.crearTabla();
+                    t.unirMatrices();
+                    cj.calcularConjuntos(t.matrizParaConjuntos(), t.Preposiciones());
+                    datos_resultado.setText(cj.ListaConjuntosCalculados());
+                } else {
+                    JOptionPane.showMessageDialog(this, "Complete el ingreso de datos!");
+                }
             } else {
-                JOptionPane.showMessageDialog(this, "Complete el ingreso de datos!");
+                JOptionPane.showMessageDialog(this, "Entrada no valida!");
             }
         } else {
             JOptionPane.showMessageDialog(this, "Entrada Vacia!");
@@ -1025,9 +1029,17 @@ public class vtn_conjuntos extends javax.swing.JFrame {
     private void btn_tablaVerdadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_tablaVerdadActionPerformed
         boolean p = txt_expresionConjuntos.getText().isEmpty();
         if (!p) {
-            conjuntos_proposiciones cp = new conjuntos_proposiciones(txt_expresionConjuntos.getText().intern());
-            tabla_conjuntos tc = new tabla_conjuntos(cp.convertir());
-            tc.setVisible(true);
+            if (validarCadena(txt_expresionConjuntos.getText().intern())) {
+                if (datos_A.getText().length() > 0) {
+                    conjuntos_proposiciones cp = new conjuntos_proposiciones(txt_expresionConjuntos.getText().intern());
+                    tabla_conjuntos tc = new tabla_conjuntos(cp.convertir());
+                    tc.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Complete el ingreso de datos!");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Entrada no valida!");
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Entrada Vacia!");
         }
@@ -1053,6 +1065,63 @@ public class vtn_conjuntos extends javax.swing.JFrame {
         txt_expresionConjuntos.setText(texto.toString());
         txt_expresionConjuntos.requestFocus();
         txt_expresionConjuntos.setCaretPosition(posicion + 1);
+    }
+
+    public boolean validarCadena(String cadena) {
+        int izq = 0;
+        int der = 0;
+        char u = cadena.charAt(cadena.length() - 1);
+        char p = cadena.charAt(0);
+        boolean a = Pattern.matches("[/ ∪ ∩ ⊕ ⊂]", Character.toString(u));
+        boolean b = Pattern.matches("[/ ∪ ∩ ⊕ ⊂]", Character.toString(p));
+
+        //Validar primero y ultimo
+        if (a || b) {
+            return false;
+        }
+
+        //Validar Parentesis
+        for (int i = 0; i < cadena.length(); i++) {
+            if (cadena.charAt(i) == '(') {
+                izq++;
+            }
+            if (cadena.charAt(i) == ')') {
+                der++;
+            }
+        }
+
+        if (izq != der) {
+            return false;
+        }
+
+        for (int i = 0; i < cadena.length() - 2; i++) {
+            char char1 = cadena.charAt(i);
+            char char2 = cadena.charAt(i + 1);
+            char char3 = cadena.charAt(i + 2);
+            boolean entre1 = char3 == ')' && Pattern.matches("[/ ∪ ∩ ⊕]", Character.toString(char2));
+            boolean entre2 = (char1 == '(' && Pattern.matches("[/ ∪ ∩ ⊕ ⊂]", Character.toString(char2)) && char3 == ')');
+            boolean entre3 = (char1 == '(' && Pattern.matches("[/ ∪ ∩ ⊕ ⊂]", Character.toString(char2)) && Character.isLetter(char3));
+            boolean entre4 = (Character.isLetter(char1) && Pattern.matches("[( )]", Character.toString(char2)) && Character.isLetter(char3));
+
+            if (entre1 || entre2 || entre3 || entre4) {
+                return false;
+            }
+        }
+
+        for (int i = 0; i < cadena.length() - 1; i++) {
+            char char1 = cadena.charAt(i);
+            char char2 = cadena.charAt(i + 1);
+            boolean entre1 = (char1 == char2) && !(char1 == '(' || char1 == ')') && !(char2 == '(' || char2 == ')');
+            boolean entre2 = Character.isLetter(char1) && Character.isLetter(char2);
+            boolean entre3 = Pattern.matches("[/ ∪ ∩ ⊕ ⊂]", Character.toString(char1)) && Pattern.matches("[/ ∪ ∩ ⊕ ⊂]", Character.toString(char2));
+
+            boolean entre4 = Pattern.matches("[(]", Character.toString(char1)) && Pattern.matches("[)]", Character.toString(char2));
+            if (entre1 || entre2 || entre3 || entre4) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
