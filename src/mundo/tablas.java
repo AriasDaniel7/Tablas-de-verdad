@@ -13,6 +13,7 @@ public class tablas {
     private String cadena;
     private ArrayList<Integer> pilaIndex;
     private boolean[][] table;
+    private boolean matrizUnida[][];
 
     public tablas(String infija) {
         cadena = infija;
@@ -37,6 +38,16 @@ public class tablas {
             System.out.printf(" %2s ", i);
             for (int j = 0; j < table[i].length; j++) {
                 System.out.printf("|  %5s  ", table[i][j]);
+            }
+            System.out.println(" ");
+        }
+    }
+
+    public void imprimirMatrizUnida() {
+        for (int i = 0; i < matrizUnida.length; i++) {
+            System.out.printf(" %2s ", i);
+            for (int j = 0; j < matrizUnida[i].length; j++) {
+                System.out.printf("|  %5s  ", matrizUnida[i][j]);
             }
             System.out.println(" ");
         }
@@ -321,4 +332,47 @@ public class tablas {
         return table;
     }
 
+    public boolean[][] unirMatrices() {
+        int filas = filasColumnas()[0];
+        int columnas2 = postfija().length();
+        int columnas1 = filasColumnas()[1];
+        int columnas = columnas1 + columnas2;
+        matrizUnida = new boolean[filas][columnas];
+        for (int j = 0; j < matrizBase[0].length; j++) {
+            for (int i = 0; i < matrizBase.length; i++) {
+                matrizUnida[i][j] = matrizBase[i][j];
+            }
+        }
+        for (int j = 0; j < table[0].length; j++) {
+            for (int i = 0; i < table.length; i++) {
+                matrizUnida[i][columnas1] = table[i][j];
+            }
+            columnas1++;
+        }
+
+        return matrizUnida;
+    }
+
+    public boolean[][] matrizParaConjuntos() {
+        int colum = matrizUnida[0].length - 1;
+        int con = 0;
+        ArrayList<Integer> filas = new ArrayList<>();
+        for (int i = 0; i < matrizUnida.length; i++) {
+            if (matrizUnida[i][colum]) {
+                filas.add(i);
+                con++;
+            }
+        }
+
+        boolean[][] matrizConjuntos = new boolean[con][filasColumnas()[1]];
+
+        con = 0;
+        for (int i = 0; i < filas.size(); i++) {
+            for (int j = 0; j < matrizBase[0].length; j++) {
+                matrizConjuntos[con][j] = matrizBase[filas.get(i)][j];
+            }
+            con++;
+        }
+        return matrizConjuntos;
+    }
 }

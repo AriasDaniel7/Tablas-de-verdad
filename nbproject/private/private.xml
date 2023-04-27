@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
-        <file>
-            <url>src/mundo/tablas.java</url>
-            <bookmark id="1">
-                <name/>
-                <line>140</line>
-                <key/>
-            </bookmark>
-        </file>
-    </editor-bookmarks>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Daniel%20Arias/Documents/NetBeansProjects/tablas_de_verdad/src/ventana/ventana_principal.java</file>
-            <file>file:/C:/Users/Daniel%20Arias/Documents/NetBeansProjects/tablas_de_verdad/src/mundo/pruebas.java</file>
+            <file>file:/C:/Users/Daniel%20Arias/Documents/NetBeansProjects/TablaVerdad_Conjuntos/src/Interfaz/Principal.java</file>
+            <file>file:/C:/Users/Daniel%20Arias/Documents/NetBeansProjects/TablaVerdad_Conjuntos/src/Interfaz/tabla_conjuntos.java</file>
+            <file>file:/C:/Users/Daniel%20Arias/Documents/NetBeansProjects/TablaVerdad_Conjuntos/src/Interfaz/vtn_conjuntos.java</file>
+            <file>file:/C:/Users/Daniel%20Arias/Documents/NetBeansProjects/TablaVerdad_Conjuntos/src/mundo/conjuntos_proposiciones.java</file>
+            <file>file:/C:/Users/Daniel%20Arias/Documents/NetBeansProjects/TablaVerdad_Conjuntos/src/mundo/conjuntos.java</file>
+            <file>file:/C:/Users/Daniel%20Arias/Documents/NetBeansProjects/TablaVerdad_Conjuntos/src/mundo/tablas.java</file>
         </group>
     </open-files>
 </project-private>
