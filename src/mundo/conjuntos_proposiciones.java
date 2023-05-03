@@ -53,6 +53,7 @@ public class conjuntos_proposiciones {
         for (int i = 0; i < lista.size(); i++) {
             resultado += lista.get(i);
         }
+        resultado = resultado.replace("A","p").replace("B","q");
         return resultado;
     }
 
@@ -179,12 +180,15 @@ public class conjuntos_proposiciones {
         cop.add(")");
         cop.add(")");
         for (int i = index1; i <= index2; i++) {
+            //System.out.println(lista.toString()); Paso a paso
             lista.remove(index1);
         }
         rep++;
 
         lista.addAll(index1, cop);
-
+        //(AnB)difeA
+        //(AdifeB)
+        // Adife(AuB)
     }
 
     public String lista() {

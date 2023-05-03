@@ -39,16 +39,9 @@ public class pruebas {
         
         */
         
-        conjuntos_proposiciones cp = new conjuntos_proposiciones("AΔB");
-        String n1 = cp.convertir();
-        cp = new conjuntos_proposiciones("BΔA");
+        conjuntos_proposiciones cp = new conjuntos_proposiciones("(A⊕B)⊕(B⊕A)");
         String n2 = cp.convertir();
-        System.out.println(n1);
         System.out.println(n2);
-        System.out.println(n1 + "Δ" + n2);
-        //(A∨B)∧¬(A∧B)Δ(B∨A)∧¬(B∧A)
-        cp = new conjuntos_proposiciones("((A∨B)∧¬(A∧B))Δ((B∨A)∧¬(B∧A)))");
-        System.out.println(cp.convertir());
         //((A∨B)∧¬((A∧B)∨(B∨A))∧¬((A∧B)∧(B∨A))∧¬(B∧A))
     }
 }

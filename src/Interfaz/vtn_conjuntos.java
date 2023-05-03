@@ -97,6 +97,8 @@ public class vtn_conjuntos extends javax.swing.JFrame {
         btn_B = new javax.swing.JButton();
         btn_B1 = new javax.swing.JButton();
         btn_B2 = new javax.swing.JButton();
+        txt_cadenaConvertida = new javax.swing.JTextField();
+        jLabel28 = new javax.swing.JLabel();
         btn_Volver1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -641,6 +643,13 @@ public class vtn_conjuntos extends javax.swing.JFrame {
             }
         });
 
+        txt_cadenaConvertida.setEditable(false);
+        txt_cadenaConvertida.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+
+        jLabel28.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel28.setText("Cadena Convertida");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -648,16 +657,6 @@ public class vtn_conjuntos extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_expresionConjuntos)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel26)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(datos_resultado)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel27)))
-                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addGap(0, 127, Short.MAX_VALUE)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -688,7 +687,19 @@ public class vtn_conjuntos extends javax.swing.JFrame {
                                 .addComponent(btn_tablaVerdad)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btn_calcularConjunto)
-                                .addGap(104, 104, 104))))))
+                                .addGap(104, 104, 104))))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txt_cadenaConvertida)
+                            .addComponent(txt_expresionConjuntos)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel26)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(datos_resultado)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel27)))
+                        .addContainerGap())))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -720,6 +731,10 @@ public class vtn_conjuntos extends javax.swing.JFrame {
                     .addComponent(jLabel26)
                     .addComponent(datos_resultado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel27))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txt_cadenaConvertida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -759,8 +774,8 @@ public class vtn_conjuntos extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -774,6 +789,8 @@ public class vtn_conjuntos extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         txt_expresionConjuntos.setText("");
+        txt_cadenaConvertida.setText("");
+        datos_resultado.setText("");
         txt_expresionConjuntos.requestFocus();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
@@ -1010,11 +1027,13 @@ public class vtn_conjuntos extends javax.swing.JFrame {
             if (validarCadena(txt_expresionConjuntos.getText().intern())) {
                 if (datos_A.getText().length() > 0) {
                     conjuntos_proposiciones cp = new conjuntos_proposiciones(txt_expresionConjuntos.getText().intern());
-                    tablas t = new tablas(cp.convertir());
+                    String cadena = cp.convertir();
+                    tablas t = new tablas(cadena);
                     t.crearTabla();
                     t.unirMatrices();
                     cj.calcularConjuntos(t.matrizParaConjuntos(), t.Preposiciones());
                     datos_resultado.setText(cj.ListaConjuntosCalculados());
+                    txt_cadenaConvertida.setText(cadena);
                 } else {
                     JOptionPane.showMessageDialog(this, "Complete el ingreso de datos!");
                 }
@@ -1032,7 +1051,9 @@ public class vtn_conjuntos extends javax.swing.JFrame {
             if (validarCadena(txt_expresionConjuntos.getText().intern())) {
                 if (datos_A.getText().length() > 0) {
                     conjuntos_proposiciones cp = new conjuntos_proposiciones(txt_expresionConjuntos.getText().intern());
-                    tabla_conjuntos tc = new tabla_conjuntos(cp.convertir());
+                    String cadena = cp.convertir();
+                    tabla_conjuntos tc = new tabla_conjuntos(cadena);
+                    txt_cadenaConvertida.setText(cadena);
                     tc.setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(this, "Complete el ingreso de datos!");
@@ -1072,11 +1093,11 @@ public class vtn_conjuntos extends javax.swing.JFrame {
         int der = 0;
         char u = cadena.charAt(cadena.length() - 1);
         char p = cadena.charAt(0);
-        boolean a = Pattern.matches("[/ ∪ ∩ ⊕ ⊂]", Character.toString(u));
-        boolean b = Pattern.matches("[/ ∪ ∩ ⊕ ⊂]", Character.toString(p));
-
+        boolean a = Pattern.matches("[/ ∪ ∩ ⊕]", Character.toString(u));
+        boolean b = Pattern.matches("[/ ∪ ∩ ⊕]", Character.toString(p));
+        boolean c = Pattern.matches("[⊂]",Character.toString(p)) && cadena.length() == 1;
         //Validar primero y ultimo
-        if (a || b) {
+        if (a || b || c) {
             return false;
         }
 
@@ -1223,6 +1244,7 @@ public class vtn_conjuntos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1235,6 +1257,7 @@ public class vtn_conjuntos extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JTextField txt_a;
     private javax.swing.JTextField txt_b;
+    private javax.swing.JTextField txt_cadenaConvertida;
     private javax.swing.JTextField txt_expresionConjuntos;
     private javax.swing.JTextField txt_u;
     // End of variables declaration//GEN-END:variables
